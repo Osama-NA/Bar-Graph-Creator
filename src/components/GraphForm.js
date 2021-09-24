@@ -1,9 +1,7 @@
-import React, {useState} from 'react';
-import {GraphFormContainer} from './styles/GraphFormContainer.styled';
-import {v4 as uuidv4} from 'uuid';
-
-const allNumbersRegex = /^(-)*[0-9]*$/g; // Regex of all numbers
-const positiveNumbersRegex = /^[0-9]*$/g; // Regex of positive numbers
+import React, { useState, useEffect, useContext } from 'react';
+import { GraphFormContainer } from './styles/GraphFormContainer.styled';
+import { GraphContext } from '../context/GraphContext';
+import { v4 as uuidv4 } from 'uuid';
 
 export const GraphForm = () => {
 
@@ -12,64 +10,50 @@ export const GraphForm = () => {
     const [title, setTitle] = useState('');
     const [barsNumber, setBarsNumber] = useState('');
     const [typeElements, setTypeElements] = useState([]);
+    const [graphDetails, setGraphDetails] = useState({});
 
-    const handleMin = (e) => { 
-        let input = e.target.value;
+    const {setGraph} = useContext(GraphContext);
 
-        //setting min if input is a number
-        if (allNumbersRegex.test(input))
-            setMin(input);
-    }
-    
-    const handleMax = (e) => {
-        let input = e.target.value;
+    const handleMin = (e) => setMin(e.target.value);
 
-        //setting min if input is a number
-        if (allNumbersRegex.test(input)) 
-            setMax(input);
-    }
- 
-    const handleTitle = (e) => {
-        let input = e.target.value;
-        setTitle(input);
-    }
+    const handleMax = (e) => setMax(e.target.value);
 
-    const handleBarsNumber = (e) => {
-        let input = e.target.value;
+    const handleTitle = (e) => setTitle(e.target.value);
 
-        //setting min if input is a positive number && less than 3 digits
-        if ((positiveNumbersRegex.test(input) && input.length <= 2)) {
-            setBarsNumber(input);
-        }
-    }
+    const handleBarsNumber = (e) => setBarsNumber(e.target.value);
 
     const confirmBarsNumber = (e) => {
         e.preventDefault();
 
         //checking if barsNumber is 0 or barsNumber length is two but not 10
-        if ((barsNumber === '0') || (barsNumber.length === 2 && barsNumber !== '10')) {
+        if ((barsNumber === '0') || (barsNumber.length >= 2 && barsNumber !== '10')) {
             alert("Number of bars should be in the range 1 - 10 . . .");
             return;
         }
-
-        handleTypeElements(); //Setting barsNumberConfirmed to render list of typeElements
+        const number = parseInt(barsNumber);
+        if (!number) {
+            alert("Number of bars should be a number in the range 1 - 10 . . .");
+            return;
+        }
+        handleTypeElements(number); //Setting barsNumberConfirmed to render list of typeElements
     }
 
-    const handleTypeElements = () => {
+    //Creates a list of size 'size' with a pair of value : amount
+    const handleTypeElements = (size) => {
         let elementsArray = [];
-
+        
         //Creating list and setting typeElements with it
-        for (let i = 1; i <= parseInt(barsNumber); i++) {
+        for (let i = 1; i <= size; i++) {
 
-            const margin =  i === parseInt(barsNumber) ? "2rem" : "1rem";
+            const margin = i === size ? "2rem" : "1rem";
 
             const element =
                 <li key={uuidv4()} style={{ marginBottom: margin }}>
-                    <input type="text" placeholder={`Type ${i}`} required />
-                    <input type="text" placeholder="Scale amount" required />
+                    <input type="text" placeholder={`Type ${i}`} name={`type${i}`} required />
+                    <input type="text" placeholder="Scale amount" name={`value${i}`} required />
                 </li>
 
-            elementsArray.push(element)
+            elementsArray.push(element);
         }
 
         setTypeElements(elementsArray);
@@ -81,43 +65,99 @@ export const GraphForm = () => {
         setMax('');
         setTitle('');
         setBarsNumber('');
-        handleTypeElements();
+        handleTypeElements(0);
     }
 
     const createGraph = (e) => {
         e.preventDefault();
+
+        if (!min) {
+            alert("Enter minimum (min) number of scale range . . .");
+            return;
+        }
+        if (!max) {
+            alert("Enter maximum (max) number of scale range . . .");
+            return;
+        }
+        if (min >= max) {
+            alert("minimum (min) should be less than maximum (max) . . .");
+            return;
+        }
+        if (!title) {
+            alert("Enter title of bar graph types . . .");
+            return;
+        }
+        if (!barsNumber) {
+            alert("Enter number of bar graph bars . . .");
+            return;
+        }
+
+        const typesList = e.target.childNodes[3];
+        const typesArray = getTypesArray(typesList);
+        
+        if (!typesArray) {
+            alert("Fill in the types and their percentage / amount . . .");
+            return;
+        }
+
+        const graph = {
+            title: title,
+            min: min,
+            max: max,
+            types: typesArray
+        }
+
+        setGraphDetails(graph);
     }
 
+    //Extracts objects of types details from given list and stores them in a array
+    const getTypesArray = (list) => {
+        let bars = [];
+        const size = parseInt(barsNumber);
+        for(let i= 0; i < size; i++){
+            let bar = list.childNodes[i];
+            let name = bar.childNodes[0].value;
+            let amount = bar.childNodes[1].value;
+            bars.push({name,amount});
+        }
+        return bars;
+    }
+
+    //when graphDetails state updates setGraph is called
+    useEffect(() => {
+        setGraph(graphDetails);
+    }, [graphDetails]);
+    
     return (
         <GraphFormContainer>
             <h2>Your bar graph details here <span>. . .</span></h2>
-            <form>
+            <form onSubmit={createGraph}>
                 <div className="form-row">
                     <label>Title:</label>
-                    <div className= "title">
-                        <input type="text" onChange={handleTitle} value={title} placeholder="ex: cars, movies, courses . . ." />
+                    <div className="title">
+                        <input type="text" onChange={handleTitle} value={title} placeholder="ex: cars, movies, courses . . ." required/>
                     </div>
                 </div>
                 <div className="form-row">
                     <label>Scale range:</label>
                     <div className="range">
-                        <input type="text" onChange={handleMin} value={min} placeholder="min" required/>
-                        <input type="text" onChange={handleMax} value={max} placeholder="max" required/>
+                        <input type="number" onChange={handleMin} value={min} placeholder="min" required />
+                        <input type="number" onChange={handleMax} value={max} placeholder="max" required />
                     </div>
                 </div>
                 <div className="form-row">
                     <label>Number of bars:</label>
                     <div className="bars-number">
-                        <input type="text" onChange={handleBarsNumber} value={barsNumber} placeholder="ex: bmw, tesla, mercedes = 3" required/>
+                        <input type="number" onChange={handleBarsNumber} value={barsNumber} placeholder="ex: bmw, tesla, mercedes = 3" required />
                         <button onClick={confirmBarsNumber}>Ok</button>
                     </div>
                 </div>
                 <ul>
-                    {typeElements.length > 0? typeElements:[]}
+                    {typeElements.length > 0 ? typeElements : []}
                 </ul>
                 <div className="buttons-row" >
                     <button onClick={resetInputs} className="reset">Reset</button>
-                    <button onClick={createGraph} className="create">Create graph</button>
+                    <button type="submit" className="create">Create graph</button>
                 </div>
             </form>
         </GraphFormContainer>

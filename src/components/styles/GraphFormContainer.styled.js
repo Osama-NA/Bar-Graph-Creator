@@ -53,6 +53,11 @@ export const GraphFormContainer = styled.div`
                     width: 45%;
                     text-align: center;
                 }
+                input::-webkit-outer-spin-button,
+                input::-webkit-inner-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                }
             }
             .title{
                 width: 100%;
@@ -68,11 +73,15 @@ export const GraphFormContainer = styled.div`
                 input{
                     width: 72.5%;
                 }
+                input::-webkit-outer-spin-button,
+                input::-webkit-inner-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                }
                 button{
                     cursor: pointer;
                     color: ${({ theme }) => theme.font.color};
-                    font-size: 13px;
-                    font-weight: bold;
+                    font-size: 16px;
                     width: 22.5%;
                     border-radius: 5px;
                     background-color: ${({ theme }) => theme.colors.purple};
@@ -116,7 +125,7 @@ export const GraphFormContainer = styled.div`
             flex-direction: row;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 1rem;
+            margin-bottom: 2.5rem;
             button{
                 width: 45%;
                 color: ${({ theme }) => theme.font.color};
