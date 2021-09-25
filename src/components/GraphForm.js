@@ -49,8 +49,8 @@ export const GraphForm = () => {
 
             const element =
                 <li key={uuidv4()} style={{ marginBottom: margin }}>
-                    <input type="text" placeholder={`Type ${i}`} name={`type${i}`} required />
-                    <input type="text" placeholder="Scale amount" name={`value${i}`} required />
+                    <input type="text" placeholder={`Type ${i}`} required />
+                    <input type="number" placeholder="Scale amount" required />
                 </li>
 
             elementsArray.push(element);
@@ -79,8 +79,8 @@ export const GraphForm = () => {
             alert("Enter maximum (max) number of scale range . . .");
             return;
         }
-        if (min >= max) {
-            alert("minimum (min) should be less than maximum (max) . . .");
+        if (parseInt(min) >= parseInt(max)) {
+            alert("Minimum (min) range should be less than maximum (max) range . . .");
             return;
         }
         if (!title) {
@@ -118,14 +118,20 @@ export const GraphForm = () => {
             let bar = list.childNodes[i];
             let name = bar.childNodes[0].value;
             let amount = bar.childNodes[1].value;
+            if(parseInt(amount) >= max){
+                alert("Amount should be less than max range . . .");
+                return;
+            }
             bars.push({name,amount});
         }
+        if(bars.length !== size) return;
         return bars;
     }
 
     //when graphDetails state updates setGraph is called
     useEffect(() => {
         setGraph(graphDetails);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [graphDetails]);
     
     return (

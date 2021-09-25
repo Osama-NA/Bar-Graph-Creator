@@ -117,6 +117,11 @@ export const GraphFormContainer = styled.div`
                     border-radius: 5px 5px 0 0;
                     background-color: ${({ theme }) => theme.input.backgroundColor};
                 }
+                input::-webkit-outer-spin-button,
+                input::-webkit-inner-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                }
             }
         }
         .buttons-row{
