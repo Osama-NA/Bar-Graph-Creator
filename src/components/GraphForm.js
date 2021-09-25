@@ -8,6 +8,7 @@ export const GraphForm = () => {
     const [min, setMin] = useState('');
     const [max, setMax] = useState('');
     const [title, setTitle] = useState('');
+    const [consumers, setConsumers] = useState('');
     const [barsNumber, setBarsNumber] = useState('');
     const [typeElements, setTypeElements] = useState([]);
     const [graphDetails, setGraphDetails] = useState({});
@@ -19,6 +20,8 @@ export const GraphForm = () => {
     const handleMax = (e) => setMax(e.target.value);
 
     const handleTitle = (e) => setTitle(e.target.value);
+
+    const handleConsumers = (e) => setConsumers(e.target.value);
 
     const handleBarsNumber = (e) => setBarsNumber(e.target.value);
 
@@ -87,12 +90,16 @@ export const GraphForm = () => {
             alert("Enter title of bar graph types . . .");
             return;
         }
+        if (!consumers) {
+            alert("Enter title of consumers, ex: students . . .");
+            return;
+        }
         if (!barsNumber) {
             alert("Enter number of bar graph bars . . .");
             return;
         }
 
-        const typesList = e.target.childNodes[3];
+        const typesList = e.target.childNodes[4];
         const typesArray = getTypesArray(typesList);
         
         if (!typesArray) {
@@ -102,6 +109,7 @@ export const GraphForm = () => {
 
         const graph = {
             title: title,
+            consumers: consumers,
             min: min,
             max: max,
             types: typesArray
@@ -117,7 +125,7 @@ export const GraphForm = () => {
         for(let i= 0; i < size; i++){
             let bar = list.childNodes[i];
             let name = bar.childNodes[0].value;
-            let amount = bar.childNodes[1].value;
+            let amount = parseInt(bar.childNodes[1].value);
             if(parseInt(amount) >= max){
                 alert("Amount should be less than max range . . .");
                 return;
@@ -142,6 +150,12 @@ export const GraphForm = () => {
                     <label>Title:</label>
                     <div className="title">
                         <input type="text" onChange={handleTitle} value={title} placeholder="ex: cars, movies, courses . . ." required/>
+                    </div>
+                </div>
+                <div className="form-row">
+                    <label>Consumers:</label>
+                    <div className="title">
+                        <input type="text" onChange={handleConsumers} value={consumers} placeholder="ex: clients, students, users . . ." required/>
                     </div>
                 </div>
                 <div className="form-row">

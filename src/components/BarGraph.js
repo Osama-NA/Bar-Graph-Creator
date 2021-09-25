@@ -8,6 +8,7 @@ export const BarGraph = () => {
     const { graph } = useContext(GraphContext);
 
     const [title, setTitle] = useState('');
+    const [consumers, setConsumers] = useState('');
     const [min, setMin] = useState('');
     const [max, setMax] = useState('');
     const [types, setTypes] = useState([]);
@@ -16,6 +17,7 @@ export const BarGraph = () => {
     useEffect(() => {
         if (graph) {
             setTitle(graph.title);
+            setConsumers(graph.consumers);
             setMin(graph.min);
             setMax(graph.max);
             setTypes(graph.types);
@@ -28,7 +30,7 @@ export const BarGraph = () => {
 
     return (
         <BarGraphContainer>
-            <h2>{title?title:'Your bar graph'}</h2>
+            <h2>{title?title:'Courses'}</h2>
             <div className="graph">
                 <div className="max">
                     <label>max </label><p>{max?max:'100'}</p>
@@ -36,6 +38,7 @@ export const BarGraph = () => {
                 <div className="min">
                     <label>min </label><p>{min?min:'0'}</p>
                 </div>
+                <p className="consumers">{consumers?consumers:'Students'}</p>
                 <Bars types={types} scaleSize={scaleSize} />
             </div>
         </BarGraphContainer>
