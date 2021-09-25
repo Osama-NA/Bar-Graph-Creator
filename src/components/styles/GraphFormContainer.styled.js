@@ -152,4 +152,66 @@ export const GraphFormContainer = styled.div`
             }
         }
     }
+    @media (max-width: 768px) {
+        h2{
+            font-size: 16px;
+            margin: 0.5rem 0 1.5rem;
+        }
+        form{
+            width: 300px;
+            .form-row{
+                margin-bottom: 1rem;
+                input{
+                    font-size: 12px;
+                    padding: 0.3rem;
+                }
+                label{
+                    font-size: 10px;
+                    width: 48%;
+                }
+                .range{
+                    input{
+                        width: 47%;
+                    }
+                }
+                .title{
+                    width: 100%;
+                    input{
+                        width: 100%;
+                    }
+                }
+                .bars-number{
+                    input{
+                        width: 72.5%;
+                    }
+                    button{
+                        font-size: 12px;
+                        width: 22.5%;
+                    }
+                }
+            }
+            ul{
+                width: 300px;
+                li{
+                    margin-bottom: 1rem; 
+                    input{
+                        width: 47%;
+                        font-size: 12px;
+                        padding: 0.3rem;
+                        border-bottom: 2px solid ${({ theme }) => theme.colors.purple};
+                        border-radius: 5px 5px 0 0;
+                    }
+                }
+            }
+            .buttons-row{
+                width: 100%;
+                margin-bottom: 1rem;
+                button{
+                    width: 46%;
+                    font-size: 12px;
+                    padding: 0.4rem;
+                }
+            }
+        }
+    }
 `

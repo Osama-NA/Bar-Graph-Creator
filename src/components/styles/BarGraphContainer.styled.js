@@ -112,4 +112,71 @@ export const BarGraphContainer = styled.div`
             }
         }
     }
+    @media (max-width: 768px){
+        height: 430px;
+        padding: 1rem;
+
+        h2{
+            font-size: 16px;
+            margin: 1rem 0 2rem;
+        }
+        .graph{
+            width: 225px;
+            height: 225px;
+            border: 2.5px solid rgb(216 216 216);
+            border-top: none;
+            border-right: none;
+            border-radius: 0 0 0 10px;
+            margin-left: 4rem;
+
+            .min, .max, .consumers{
+                left: -4rem;
+                label{
+                    font-size: 10px;
+                }
+                p{
+                    font-size: 9px;
+                    margin-left: 0.6rem;
+                    padding: 0.1rem 0.2rem;
+                    min-width: 20px;
+                    width: auto;
+                    border-radius: 5px;
+                    background-color:  rgb(145 70 255);
+                    box-shadow: inset 1px 1px 4px 0px #282828;
+                    text-shadow: 1px 1px 3px #282828;
+                }
+            }
+            .max{
+                top: 0;
+            }
+            .min{
+                bottom: 0;
+            }
+            .consumers{
+                left: -3.2rem;
+                font-size: 12px;
+            }
+
+            .bars{
+                padding: 0 0 1rem 1rem;
+
+                .bar{
+                    width: 20px;
+                    margin-right: 1rem;
+                    border-radius: 5px 5px 0 0;
+                    box-shadow: inset 1px 1px 6px 0px #393939;
+                    animation-name: expand;
+                    animation-duration: 0.8s;
+                    animation-timing-function: linear;
+
+                    .type, .amount{
+                        font-size: 10px;
+                    }
+                    .type{
+                        bottom: -3.5rem;
+                    }
+                }
+            }
+        }
+    }
 `
