@@ -3,10 +3,27 @@ import { GraphFormContainer } from './styles/GraphFormContainer.styled';
 import { GraphContext } from '../context/GraphContext';
 import { v4 as uuidv4 } from 'uuid';
 
+const defaultBars = [
+    { name: 'Java', percentage: 65, amount: 65 },
+    { name: 'PHP', percentage: 33, amount: 33 },
+    { name: 'Python', percentage: 82, amount: 82 },
+    { name: 'C++', percentage: 75, amount: 75 },
+    { name: 'NodeJs', percentage: 55, amount: 55 },
+    { name: 'Flutter', percentage: 24, amount: 24 }
+];
+
+const defaultGraph = { 
+    title: 'Courses',
+    consumers: 'Students',
+    min: 0,
+    max: 100,
+    types: defaultBars
+}
+
 export const GraphForm = () => {
 
-    const [min, setMin] = useState('');
-    const [max, setMax] = useState('');
+    const [min, setMin] = useState('0');
+    const [max, setMax] = useState('100');
     const [title, setTitle] = useState('');
     const [consumers, setConsumers] = useState('');
     const [barsNumber, setBarsNumber] = useState('');
@@ -64,11 +81,13 @@ export const GraphForm = () => {
 
     const resetInputs = (e) => {
         e.preventDefault();
-        setMin('');
-        setMax('');
+        setMin('0');
+        setMax('100');
         setTitle('');
+        setConsumers('');
         setBarsNumber('');
         handleTypeElements(0);
+        setGraph(defaultGraph);
     }
 
     const createGraph = (e) => {
@@ -116,6 +135,7 @@ export const GraphForm = () => {
         }
 
         setGraphDetails(graph);
+        scrollToGraph();
     }
 
     //Extracts objects of types details from given list and stores them in a array
@@ -135,6 +155,8 @@ export const GraphForm = () => {
         if(bars.length !== size) return;
         return bars;
     }
+
+    const scrollToGraph = () => window.scrollTo(0, 1500);
 
     //when graphDetails state updates setGraph is called
     useEffect(() => {

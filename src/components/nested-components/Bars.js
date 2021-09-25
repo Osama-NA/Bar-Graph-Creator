@@ -17,9 +17,8 @@ export const Bars = ({scaleSize, types}) => {
         let size = types.length;
         for (let i = 0; i < size; i++) {
             let amount = types[i].amount;
-            let percentage = Math.ceil((amount / scaleSize) * 100);
+            let percentage = Math.floor((amount / scaleSize) * 100);
             types[i].percentage = percentage;
-            console.log((types[i].percentage));
         }
     }
 

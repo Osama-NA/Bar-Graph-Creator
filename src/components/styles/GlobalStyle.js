@@ -8,6 +8,7 @@ export const GlobalStyle = createGlobalStyle`
         border: 0;
         box-sizing: border-box;
         font-family: 'Poppins', sans-serif;
+        scroll-behavior: smooth;
     }
     body{
         display: flex;

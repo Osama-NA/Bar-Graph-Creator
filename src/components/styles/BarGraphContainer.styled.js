@@ -5,7 +5,6 @@ export const BarGraphContainer = styled.div`
     height: 750px;
     margin: 1rem;
     padding: 1rem 0 3.5rem;
-    padding-left: 5rem;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -27,6 +26,7 @@ export const BarGraphContainer = styled.div`
         border-top: none;
         border-right: none;
         border-radius: 0 0 0 15px;
+        margin-left: 2rem;
 
         .min, .max, .consumers{
             position: absolute;
