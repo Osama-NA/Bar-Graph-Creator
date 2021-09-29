@@ -13,4 +13,4 @@ This react web application creates a smooth bar graph with a click
 
 ![graph](https://user-images.githubusercontent.com/78507737/135333487-d99bbad0-f8ef-4b66-b622-32133cb61fd7.png)
 
-## [Try Bar Graph Creator here](https://bargraphcreator.netlify.app/)
+### [Try Bar Graph Creator here](https://bargraphcreator.netlify.app/)
