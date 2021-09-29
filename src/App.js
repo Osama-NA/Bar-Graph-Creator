@@ -4,7 +4,7 @@ import { GlobalStyle } from './components/styles/GlobalStyle';
 import {Header} from './components/Header';
 import {GraphForm} from './components/GraphForm';
 import {BarGraph} from './components/BarGraph';
-import {GraphProvider} from './context/GraphContext';
+import { GraphProvider } from './context/GraphContext';
 
 const theme = {
   input:{
@@ -24,6 +24,7 @@ const theme = {
 }
 
 function App() {
+
   return (
     <ThemeProvider theme= {theme}>
       <AppContainer>
