@@ -1,5 +1,5 @@
 # Bar Graph Creator
-Creates a smooth bar graph with a click.
+Creates an animated bar graph with a click.
 
 Bar graph generator using styled-components, hooks, context.
 
